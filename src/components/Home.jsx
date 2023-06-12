@@ -52,16 +52,20 @@ const Home = () => {
         <h1>Bem-vindo à página inicial!</h1>
         <div className="row mt-5">
           <div className="col">
-            <Card title="Card 1" />
+            <Card title="Temperatura" contentCard={"22cº"}/>
+            
           </div>
           <div className="col">
-            <Card title="Card 2" />
+            <Card title="Co2" contentCard={"400 ppm"}/>
+            
           </div>
           <div className="col">
-            <Card title="Card 3" />
+            <Card title="Luminosidade" contentCard={"1 Lúmen"} />
+            
           </div>
           <div className="col">
-            <Card title="Card 4" />
+            <Card title="Risco" contentCard={"Sem risco"} />
+    
           </div>
         </div>
         <div className="row mt-5">
