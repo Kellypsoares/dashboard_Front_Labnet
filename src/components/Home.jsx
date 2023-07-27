@@ -15,7 +15,7 @@ import {
   Filler,
 } from 'chart.js'
 import { Bar } from "react-chartjs-2";
-import {faker} from "@faker-js/faker" 
+import { faker } from "@faker-js/faker"
 
 Chart.register(
   ArcElement,
@@ -50,7 +50,9 @@ const Home = () => {
       corpo: "Sem Risco"
     },
   ]
-
+// const graf1 = fetch("http://localhost:5000/graf1")
+  //   .then((data) => data)
+  //   .catch((error) => console.error(error))
   const graf1 = {
     labels: ['Horários'],
     datasets: [
@@ -61,7 +63,9 @@ const Home = () => {
       }
     ]
   };
-
+  // const graf2 = fetch("http://localhost:5000/graf2")
+  //   .then((data) => data)
+  //   .catch((error) => console.error(error))
   const graf2 = {
     labels: ['Horários'],
     datasets: [
@@ -72,7 +76,9 @@ const Home = () => {
       }
     ]
   };
-
+  // const graf3 = fetch("http://localhost:5000/graf3")
+  //   .then((data) => data)
+  //   .catch((error) => console.error(error))
   const graf3 = {
     labels: ['Horários'],
     datasets: [
@@ -88,14 +94,14 @@ const Home = () => {
     responsive: true
   };
 
-  const labels = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19' , '20', '21', '22','23', '24'];
+  const labels = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'];
 
   const data = {
     labels,
     datasets: [
       {
         label: 'Temperatura',
-        data: [18, 19, 20, 18 , 17, 20, 21, 22 , 22, 23 ,23 , 24, 28 , 28, 27, 26, 27,],
+        data: [18, 19, 20, 18, 17, 20, 21, 22, 22, 23, 23, 24, 28, 28, 27, 26, 27,],
         backgroundColor: 'rgba(63, 81, 181, 1)',
       },
     ],
