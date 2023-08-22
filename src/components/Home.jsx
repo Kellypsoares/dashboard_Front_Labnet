@@ -1,7 +1,9 @@
 import React from 'react';
 import Card from './Card';
 import Navbar from './Navbar';
-import {
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { 
   Chart,
   ArcElement,
   CategoryScale,
@@ -31,6 +33,14 @@ Chart.register(
 );
 
 const Home = () => {
+  const dados = useState({})
+  
+  useEffect(async ()=>{
+    await axios.get('127.0.0.1:3000/')
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err))
+
+  },[])
 
   const cards = [
     {
@@ -50,9 +60,9 @@ const Home = () => {
       corpo: "Sem Risco"
     },
   ]
-// const graf1 = fetch("http://localhost:5000/graf1")
-  //   .then((data) => data)
-  //   .catch((error) => console.error(error))
+  //  const graf5 = fetch("http://localhost:3000/graf1")
+  //    .then((data) => data)
+  //    .catch((error) => console.error(error))
   const graf1 = {
     labels: ['Horários'],
     datasets: [
@@ -63,7 +73,7 @@ const Home = () => {
       }
     ]
   };
-  // const graf2 = fetch("http://localhost:5000/graf2")
+  // const graf2 = fetch("http://localhost:3000/graf2")
   //   .then((data) => data)
   //   .catch((error) => console.error(error))
   const graf2 = {
