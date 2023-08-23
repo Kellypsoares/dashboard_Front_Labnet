@@ -31,15 +31,25 @@ Chart.register(
   LineElement,
   Filler,
 );
-
+//montando a home, mas n temos dados
 const Home = () => {
   const dados = useState({})
+  //agora vai executar uma vez, as próximas serão em função das variáveis de estado,
+  // que estará dentro de [], como está vazio vai executar uma vez 
+  //use effect p pegar os dados
+  //pegou os dados (api) guardo na variável de estados -- ai tenho dados diferentes e a variavel de estado vai se modificar
+  // o componente home será reconstruido considerando os novos dados
+  //assim temos a home com os dados da api atuazliada
   
-  useEffect(async ()=>{
-    await axios.get('127.0.0.1:3000/')
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err))
+  useEffect(()=>{
+    function getData(){
 
+      axios.get('http://127.0.0.1:3000/sensores')
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err))
+
+    }
+    getData()
   },[])
 
   const cards = [
