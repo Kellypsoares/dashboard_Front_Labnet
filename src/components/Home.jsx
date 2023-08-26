@@ -33,7 +33,7 @@ Chart.register(
 );
 //montando a home, mas n temos dados
 const Home = () => {
-  const dados = useState({})
+  const [dados, setDados] = useState([])
   //agora vai executar uma vez, as próximas serão em função das variáveis de estado,
   // que estará dentro de [], como está vazio vai executar uma vez 
   //use effect p pegar os dados
@@ -45,12 +45,64 @@ const Home = () => {
     function getData(){
 
       axios.get('http://127.0.0.1:3000/sensores')
-        .then((data) => console.log(data))
+        .then((data) => {
+          console.log(data)
+          setDados(data.data)
+          console.log(data.data.map(x => {
+            return x.LUZ
+          }))
+        })
         .catch((err) => console.log(err))
 
     }
     getData()
   },[])
+
+  function calcularMediasPorHora(arrayDeObjetos, chaveNumero, medida = true) {
+    // Função para calcular médias ou retornar horas correspondentes com base nos dados fornecidos.
+
+    // Cria um mapa para armazenar os valores somados e os contadores para cada hora.
+    const mapPorHora = new Map();
+
+    // Itera sobre cada objeto no array de objetos.
+    arrayDeObjetos.forEach(objeto => {
+        // Extrai a data do objeto e obtém a hora.
+        const data = new Date(objeto["data"]);
+        const hora = data.getHours();
+
+        // Extrai o valor numérico usando a chave fornecida.
+        const numero = objeto[chaveNumero];
+
+        // Verifica se a hora já possui uma entrada no mapa. Se não, cria uma entrada inicial.
+        if (!mapPorHora.has(hora)) {
+            mapPorHora.set(hora, { soma: 0, contador: 0 });
+        }
+
+        // Recupera o valor atual para a hora no mapa e atualiza a soma e o contador.
+        const valorAtual = mapPorHora.get(hora);
+        valorAtual.soma += numero;
+        valorAtual.contador++;
+    });
+
+    // Array para armazenar as médias calculadas ou as horas.
+    const mediasPorHora = [];
+
+    // Itera sobre as entradas do mapa.
+    mapPorHora.forEach((valor, hora) => {
+        // Calcula a média dividindo a soma pelo contador.
+        const media = valor.soma / valor.contador;
+
+        // Verifica se deve adicionar a média ou a hora ao array final.
+        if (medida === true) {
+            mediasPorHora.push(media); // Adiciona a média.
+        } else {
+            mediasPorHora.push(hora); // Adiciona a hora.
+        }
+    });
+
+    // Retorna o array com as médias ou horas correspondentes.
+    return mediasPorHora;
+}
 
   const cards = [
     {
@@ -70,61 +122,42 @@ const Home = () => {
       corpo: "Sem Risco"
     },
   ]
-  //  const graf5 = fetch("http://localhost:3000/graf1")
-  //    .then((data) => data)
-  //    .catch((error) => console.error(error))
-  const graf1 = {
-    labels: ['Horários'],
-    datasets: [
-      {
-        label: 'Temperatura',
-        data: [12, 19, 3],
-        backgroundColor: ['#3F51B5']
-      }
-    ]
-  };
-  // const graf2 = fetch("http://localhost:3000/graf2")
-  //   .then((data) => data)
-  //   .catch((error) => console.error(error))
+
   const graf2 = {
-    labels: ['Horários'],
+    labels: calcularMediasPorHora(dados, "LUZ", false),
     datasets: [
       {
         label: 'Luminosidade',
-        data: [12, 19, 3],
+        data: calcularMediasPorHora(dados, "LUZ"),
         backgroundColor: ['#3F51B5']
       }
     ]
   };
-  // const graf3 = fetch("http://localhost:5000/graf3")
-  //   .then((data) => data)
-  //   .catch((error) => console.error(error))
+
   const graf3 = {
-    labels: ['Horários'],
+    labels: calcularMediasPorHora(dados, "co2", false),
     datasets: [
       {
         label: 'CO2',
-        data: [12, 19, 3],
+        data: calcularMediasPorHora(dados, "co2"),
         backgroundColor: ['#3F51B5']
       }
     ]
+  };
+
+  const data = {
+    labels: calcularMediasPorHora(dados, "temperatura", false),
+    datasets: [
+      {
+        label: 'Temperatura',
+        data: calcularMediasPorHora(dados, "temperatura"),
+        backgroundColor: 'rgba(63, 81, 181, 1)',
+      },
+    ],
   };
 
   const options = {
     responsive: true
-  };
-
-  const labels = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'];
-
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Temperatura',
-        data: [18, 19, 20, 18, 17, 20, 21, 22, 22, 23, 23, 24, 28, 28, 27, 26, 27,],
-        backgroundColor: 'rgba(63, 81, 181, 1)',
-      },
-    ],
   };
 
   return (
